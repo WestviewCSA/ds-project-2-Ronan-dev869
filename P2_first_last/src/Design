@@ -1,0 +1,13 @@
+Design Plan - P2
+Due 3/12/25 11:59 pm
+
+Plan: 
+learn 3d array; use if multi room with each "layer" being one of the rooms
+use scanner to read row by row and insert into a 2d/3d array, store multiple levels in a 3d array
+	ignore noise (go by given row x col)
+make functions to get col of maps (put maps into a 2d array)
+use queue/stack as move tracker; make function to read move tracker once path is found
+coordinate converter for output and input, input convert into a 2d array
+read and find path before putting into a stack/queue (possible change if ineffecient)
+use 2d array to find path or storage stack/queues
+add runtimer
