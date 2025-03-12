@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 public class Map {
 	private Tile[][][] map;
-	
+	private int x;
+	private int y;
+	private int z;
 	public Map(String map) {
 		File file = new File(map);
 		try {
@@ -16,18 +18,28 @@ public class Map {
 			
 			
 			
-			this.map = new Tile[rows][cols][levels];
-			
+			this.map = new Tile[levels][rows][cols];
+			System.out.println( rows + cols + levels);
 			//fill map
-			String line = scan.nextLine();
-			for(int i = 1; i<=levels; i++) {
-				for(int j = 0; j<rows; j++) {
-					for(int k = 0; k<cols; k++) {
-						this.map[i][j][k] = new Tile(j,k,line.charAt(k));
-					}
-					line = scan.nextLine();
+			String line = scan.next();
+			
+				for(int i = 0; i<levels; i++) {
+					for(int j = 0; j<rows; j++) {
+						for(int k = 0; k<cols; k++) {
+							this.map[i][j][k] = new Tile(j,k, line.charAt(k));
+							if(line.charAt(k) == 'W') {
+								x = j;
+								y = k;
+								z = i;
+							}
+						}
+						if(scan.hasNext()) {
+							line = scan.next();
+						}
+					}	
 				}
-			}
+			
+			
 			scan.close();
 		}
 		catch(FileNotFoundException e) {
@@ -36,15 +48,34 @@ public class Map {
 	}
 	public String toString() {
 		String res = "";
-		for(int i = 1; i<=map.length;i++) {
+		for(int i = 0; i<map.length;i++) {
 			for(int j = 0; j<map[0].length; j++) {
 				for(int k = 0; k<map[0][0].length; k++) {
-					res += map[i][j][k] + " ";
+					res += map[i][j][k].getLocation() + " ";
 				}
-				res += "/n";
+				res += "\n";
 			}
 		}
 		return res;
+	}
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public int getZ() {
+		return z;
+	}
+	public void setZ(int z) {
+		this.z = z;
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
