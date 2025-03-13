@@ -9,7 +9,7 @@ public class Tile {
 		this.col = col;
 		this.location = location;
 	}
-
+	
 	public int getRow() {
 		return row;
 	}

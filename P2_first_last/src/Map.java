@@ -19,7 +19,7 @@ public class Map {
 			
 			
 			this.map = new Tile[levels][rows][cols];
-			System.out.println( rows + cols + levels);
+			
 			//fill map
 			String line = scan.next();
 			
@@ -70,12 +70,18 @@ public class Map {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+	public Tile[][][] getMap(){
+		return map;
+	}
 	public int getZ() {
 		return z;
 	}
 	public void setZ(int z) {
 		this.z = z;
+	}
+	
+	public void setTile(int x, int y, int z, char type) {
+		map[z][x][y] = new Tile(x,y,type);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
