@@ -96,7 +96,7 @@ public class Wolverine {
 			return;
 		}
 		if(board[z][x+1][y].getLocation() == '.' && x<board[0].length) {
-			south(x+1, y, board);
+			south(x, y, board);
 			return;
 		}
 		else {
@@ -106,10 +106,13 @@ public class Wolverine {
 		}
 	}
 	public Stack<Tile> south(int x, int y, Tile[][][] board){
-		if(board[z][x][y].getLocation() == '$') {
+		if(x>board[0].length) {
+			deSouth(x,y,board);
+		}
+		if(board[z][x+1][y].getLocation() == '$') {
 			return path;
 		}
-		if(board[z][x][y].getLocation() == '@' || x>board[0].length) {
+		if(board[z][x+1][y].getLocation() == '@' || x>board[0].length) {
 			deSouth(x, y, board);
 			return path;
 		}
