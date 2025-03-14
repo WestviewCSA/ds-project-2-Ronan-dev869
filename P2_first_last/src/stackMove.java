@@ -17,35 +17,40 @@ public class stackMove {
 			return path;
 		}
 		else {	
-			if(x-1>0 && board[z][x-1][y].getLocation() != '@') {
-				Tile north = board[z][x-1][y];
-				north.setLocation('+');
-				path.push(north);
-			}
-			if(x+1<board[0].length && board[z][x+1][y].getLocation() != '@') {
-				Tile south = board[z][x+1][y];
-				south.setLocation('+');
-				path.push(south);
-			}
-			if(y+1<board[0][0].length && board[z][x][y+1].getLocation() != '@') {
-				Tile east = board[z][x][y+1];
-				east.setLocation('+');
-				path.push(east);
-			}
-			if(y-1>0 && board[z][x][y-1].getLocation() != '@') {
-				Tile west = board[z][x][y-1];
-				west.setLocation('+');
-				path.push(west);
-			}
+			add(board,z);
 			System.out.println(path);
-			Tile move = path.pop();
-			board[z][move.getRow()][move.getCol()] = move;
-			
+			while(path.size() > 0) {
+				Tile move = path.pop();
+				board[z][move.getRow()][move.getCol()] = move;
+			}
+			add(board, z);
 			
 		}
 		
 		return path;
 	}
 	
+	public void add(Tile[][][] board, int z) {
+		if(x-1>0 && board[z][x-1][y].getLocation() != '@') {
+			Tile north = board[z][x-1][y];
+			north.setLocation('+');
+			path.push(north);
+		}
+		if(x+1<board[0].length && board[z][x+1][y].getLocation() != '@') {
+			Tile south = board[z][x+1][y];
+			south.setLocation('+');
+			path.push(south);
+		}
+		if(y+1<board[0][0].length && board[z][x][y+1].getLocation() != '@') {
+			Tile east = board[z][x][y+1];
+			east.setLocation('+');
+			path.push(east);
+		}
+		if(y-1>0 && board[z][x][y-1].getLocation() != '@') {
+			Tile west = board[z][x][y-1];
+			west.setLocation('+');
+			path.push(west);
+		}
+	}
 	
 }
