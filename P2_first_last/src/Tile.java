@@ -15,7 +15,7 @@ public class Tile {
 		this.location = location;
 	}
 	public boolean equals(Tile e) {
-		return e.getCol() == col && e.getRow() == row;
+		return  col == e.getCol() && row == e.getRow();
 	}
 	public int getRow() {
 		return row;

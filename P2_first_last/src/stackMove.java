@@ -4,6 +4,7 @@ public class stackMove {
 	private int y;
 	private Stack<Tile> path;
 	private char[] noMove;
+	
 	public stackMove(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -17,6 +18,7 @@ public class stackMove {
 		Stack<Tile> moves = new Stack<Tile>();
 		while(path.peek().getLocation() != '$') {
 			Tile move = path.pop();
+			System.out.println(move.getRow() + " " + move.getCol());
 			moves.push(move);
 			add(board,z,move.getRow(),move.getCol());
 		}
@@ -25,13 +27,13 @@ public class stackMove {
 //			
 //			getPath(board,z,x,y);
 //		}
-			
-		for(int i = 0; i<moves.size(); i++) {
-			Tile temp = moves.pop();
-			System.out.println(temp.getRow() + " " + temp.getCol());
-		}
-			
-		
+//		System.out.println(moves.size());	
+//		int size = moves.size();
+//		for(int i = 0; i<size; i++) {	
+//			Tile temp = moves.pop();
+//			System.out.println(temp.getRow() + " " + temp.getCol());
+//		}
+//		
 		
 		return path;
 	}
@@ -40,22 +42,22 @@ public class stackMove {
 		
 		if(x-1>0 && nullMove(board,z,x-1,y)) {
 			Tile north = board[z][x-1][y];
-			north.setLocation('+');
+			north.setLocation('P');
 			path.push(north);
 		}
 		if(x+1<board[0].length &&nullMove(board,z,x+1,y)) {
 			Tile south = board[z][x+1][y];
-			south.setLocation('+');
+			south.setLocation('P');
 			path.push(south);
 		}
 		if(y+1<board[0][0].length && nullMove(board,z,x,y+1)) {
 			Tile east = board[z][x][y+1];
-			east.setLocation('+');
+			east.setLocation('P');
 			path.push(east);
 		}
 		if(y-1>0 && (board[z][x][y-1].getLocation() != '@'  &&nullMove(board,z,x,y-1))) {
 			Tile west = board[z][x][y-1];
-			west.setLocation('+');
+			west.setLocation('P');
 			path.push(west);
 		}
 	}
@@ -63,7 +65,7 @@ public class stackMove {
 	public boolean nullMove(Tile[][][] board, int z, int x, int y) {
 
 		noMove[0] = '@';
-		noMove[1] = '+';
+		noMove[1] = 'P';
 		noMove[2] = 'W';
 	
 		if(board[z][x][y].getLocation() == '$' || board[z][x][y].getLocation() == '|') {
