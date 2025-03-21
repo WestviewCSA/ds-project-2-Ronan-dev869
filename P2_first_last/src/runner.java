@@ -3,7 +3,7 @@ public class runner{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Map mazes = new Map("src/test1");
+		Map mazes = new Map("src/test2");
 		Wolverine wol = new Wolverine(mazes.getX(), mazes.getY(), 0);
 		System.out.println(wol.getX() + " " + wol.getY() + " " + wol.getZ());
 		stackMove s = new stackMove(wol.x,wol.y);
@@ -11,7 +11,6 @@ public class runner{
 //		if(moves.peek().getLocation() == '|') {
 //			wol = mazes.getPlayer(wol.getZ()+1);
 //		}
-		
 		
 		System.out.println(mazes.toString());
 	}
