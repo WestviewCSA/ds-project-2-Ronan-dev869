@@ -47,7 +47,7 @@ public class stackMove {
 		}
 		if(x+1<board[0].length &&nullMove(board,z,x+1,y)) {
 			Tile south = board[z][x+1][y];
-			south.setLocation('P');
+			//south.setLocation('P');
 			path.push(south);
 		}
 		if(y+1<board[0][0].length && nullMove(board,z,x,y+1)) {
@@ -55,7 +55,7 @@ public class stackMove {
 			east.setLocation('P');
 			path.push(east);
 		}
-		if(y-1>0 && (board[z][x][y-1].getLocation() != '@'  &&nullMove(board,z,x,y-1))) {
+		if(y-1>0 && nullMove(board,z,x,y-1)) {
 			Tile west = board[z][x][y-1];
 			west.setLocation('P');
 			path.push(west);
