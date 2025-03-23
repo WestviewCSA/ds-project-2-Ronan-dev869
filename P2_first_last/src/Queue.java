@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class Queue<C> {
-	private Stack<C> data;
-	private Stack<C> res;
+public class Queue{
+	private Stack data;
+	private Stack res;
 	public Queue() {
-		data = new Stack<C>();
-		res = new Stack<C>();
+		data = new Stack();
+		res = new Stack();
 		
 	}
 	
@@ -13,13 +13,13 @@ public class Queue<C> {
 	 * add to queue
 	 */
 	
-	public void enqueue(C el) {
+	public void enqueue(Tile el) {
 		data.push(el);
 		
 		
 	}
 	
-	public C dequeue() {
+	public Tile dequeue() {
 		
 		
 		for(int i = 0; i<data.size()+i; i++) {
@@ -27,7 +27,7 @@ public class Queue<C> {
 			
 		}
 		
-		C t = res.pop();
+		Tile t = res.pop();
 		for(int i = 0; i<res.size()+i; i++) {
 			data.push(res.pop());
 		}
@@ -40,7 +40,7 @@ public class Queue<C> {
 		return data.size();
 	}
 	
-	public C peek() {
+	public Tile peek() {
 		
 		return data.peek();
 	}
@@ -53,7 +53,7 @@ public class Queue<C> {
 		String result = "[";
 		int l = size();
 		for(int i = 0; i<l; i++) {
-			C temp = dequeue();
+			Tile temp = dequeue();
 			result+= temp;
 			data.push(temp);
 			result+=", ";

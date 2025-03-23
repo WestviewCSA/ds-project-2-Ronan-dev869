@@ -2,88 +2,99 @@
 public class stackMove {
 	private int x;
 	private int y;
-	private Stack<Tile> path;
+	private Stack path;
 	private char[] noMove;
 	
 	public stackMove(int x, int y) {
 		this.x = x;
 		this.y = y;
-		path = new Stack<Tile>();
+		path = new Stack();
 		noMove = new char[3];
 		
 	}
 	
-	public Stack<Tile> getPath(Tile[][][] board, int z, int x, int y ){
-		path.push(board[z][x][y]);
-		add(board, z, x, y, 'P');
-		Stack<Tile> moves = new Stack<Tile>();
-		while(path.peek().getLocation() != '$') {
-			Tile move = path.pop();
-			System.out.println(move.getRow() + " " + move.getCol());
+	public Stack getPath(Tile[][][] board, int z, int x, int y ){
+		Stack moves = new Stack();
+		Tile prev = new Tile();
+		path.add(board, z, x, y);
+		int size = 0;
+	
+		while(path.size() > 0) {
+			Tile move = path.peek();
+			
+			if(path.size()>1&& size>1) {
+				
+				moves.add(board, z, move.getRow(), move.getCol());
+				System.out.println(size);
+				while(moves.size()>size) {
+					if(findS(board,z,moves.peek().getRow(),moves.peek().getCol())) {
+						return moves;
+					}
+					
+					move = moves.pop();
+					moves.add(board, z, move.getRow(), move.getCol());
+				}
+				
+				path.pop();
+				continue;
+			}
+			path.pop();
+			size++;
 			moves.push(move);
-			add(board,z,move.getRow(),move.getCol(), 'P');
-			System.out.println(path);
+			System.out.println(moves.toString());
+			path.add(board, z, move.getRow(), move.getCol());
+			
+			
+		
+			
 		}
 		
+
+		System.out.println(path);
 //		if(temp.getLocation() == '|') {	
 //			
 //			getPath(board,z,x,y);
 //		}
 //		System.out.println(moves.size());
-		System.out.println(path.size());
-		Tile temp = path.pop();
-		add(board,z,temp.getRow(),temp.getCol(),'+');
-		while(path.peek().getLocation() != 'W') {
-			temp = path.pop();
-			
+		while(moves.size()>0) {
+			moves.pop().setLocation('+');
 		}
 //		
 		
 		return path;
 	}
 	
+	public Stack testBranch(Tile[][][] board, Tile start, int z) {
+		Stack branch = new Stack();
+		Stack tempPath = new Stack();
 	
-	
-	public void add(Tile[][][] board, int z, int x, int y, char type) {
+		branch.add(board, z, start.getRow(), start.getCol());
+		while(branch.size()>0) {
+			if(findS(board,z,start.getRow(),start.getCol())) {
+				return tempPath;
+			}
+			Tile move = branch.pop();
+			tempPath.push(move);
+			branch.add(board, z, move.getRow(), move.getCol());
+		}
+		branch.push(start);
+		return branch;
 		
-		if(x-1>0 && nullMove(board,z,x-1,y, type)) {
-			Tile north = board[z][x-1][y];
-			north.setLocation(type);
-			path.push(north);
-		}
-		if(x+1<board[0].length &&nullMove(board,z,x+1,y, type)) {
-			Tile south = board[z][x+1][y];
-			south.setLocation(type);
-			path.push(south);
-		}
-		if(y+1<board[0][0].length && nullMove(board,z,x,y+1, type)) {
-			Tile east = board[z][x][y+1];
-			east.setLocation(type);
-			path.push(east);
-		}
-		if(y-1>0 &&nullMove(board,z,x,y-1, type)) {
-			Tile west = board[z][x][y-1];
-			west.setLocation(type);
-			path.push(west);
-		}
 	}
-	
-	public boolean nullMove(Tile[][][] board, int z, int x, int y, char type) {
-
-		noMove[0] = '@';
-		noMove[1] = type;
-		noMove[2] = 'W';
-	
-		if(board[z][x][y].getLocation() == '$' || board[z][x][y].getLocation() == '|') {
-			path.push(board[z][x][y]);
+	public boolean findS(Tile[][][] board, int z, int x, int y) {
+		if(x-1>0 && board[z][x-1][y].getLocation() == '$') {
 			return true;
 		}
-		for(int i = 0; i<noMove.length; i++) {
-			if(board[z][x][y].getLocation() == noMove[i]) {
-				return false;
-			}
+		if(x+1<board[0].length && board[z][x+1][y].getLocation() == '$') {
+			return true;
 		}
-		
-		return true;
+		if(y-1>0 && board[z][x][y-1].getLocation() == '$') {
+			return true;
+		}
+		if(y+1<board[0][0].length && board[z][x][y+1].getLocation() == '$') {
+			return true;
+		}
+		return false;
 	}
+	
 }
