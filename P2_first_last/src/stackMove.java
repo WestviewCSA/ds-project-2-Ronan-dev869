@@ -22,48 +22,79 @@ public class stackMove {
 		while(path.size() > 0) {
 			Tile move = path.peek();
 			
-			if(path.size()>1&& size>1) {
+			if(path.size()>1) {
 				
-				moves.add(board, z, move.getRow(), move.getCol());
-				System.out.println(size);
-				while(moves.size()>size) {
+				
+				
+				moves.add(board,z,move.getRow(),move.getCol());
+				System.out.println("Size: " + moves.size() + " " + size);
+				System.out.println("Moves: " + move.getRow() + " " + move.getCol());
+				Stack temp = moves;
+
+				while( moves.size()>size) {
 					if(findS(board,z,moves.peek().getRow(),moves.peek().getCol())) {
+						
 						return moves;
 					}
 					
 					move = moves.pop();
-					moves.add(board, z, move.getRow(), move.getCol());
-				}
 				
+					moves.add(board, z, move.getRow(), move.getCol());
+					
+				}
+				temp = moves;
+				System.out.println(temp.toString());
 				path.pop();
-				continue;
+				//continue;
+				
 			}
+			
 			path.pop();
 			size++;
 			moves.push(move);
-			System.out.println(moves.toString());
+			
 			path.add(board, z, move.getRow(), move.getCol());
+			
 			
 			
 		
 			
 		}
 		
-
+		System.out.println(moves.toString());
 		System.out.println(path);
 //		if(temp.getLocation() == '|') {	
 //			
 //			getPath(board,z,x,y);
 //		}
 //		System.out.println(moves.size());
-		while(moves.size()>0) {
-			moves.pop().setLocation('+');
-		}
+		
 //		
 		
-		return path;
+		return moves;
 	}
-	
+	public Stack getPath2(Tile[][][] board, int z, int x, int y){
+		Stack path = new Stack();
+		Stack moves = new Stack();
+		path.add(board, z, x, y);
+		int size = 0;
+		Tile move = path.peek();
+		
+		if(path.size() == 1) {
+			path.pop();
+			size++;
+			moves.push(move);
+			return moves;
+		}
+		else {
+			moves.push(move);
+			while(moves.size()>size) {
+				move = moves.peek();
+				getPath2(board, z, move.getRow(), move.getCol());
+			}
+			return moves;
+		}
+	}
 	public Stack testBranch(Tile[][][] board, Tile start, int z) {
 		Stack branch = new Stack();
 		Stack tempPath = new Stack();
