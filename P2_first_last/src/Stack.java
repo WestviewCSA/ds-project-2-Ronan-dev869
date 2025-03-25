@@ -16,6 +16,8 @@ public class Stack {
 	
 	public void add(Tile[][][] board, int z, int x, int y) {
 		if(findS(board,z,x,y)) {
+			System.out.println(board[z][x][y].getLocation());
+			//data.add(board[z][x][y]);
 			return;
 		}
 		if(x-1>0 && nullMove(board,z,x-1,y)) {
@@ -58,15 +60,19 @@ public class Stack {
 	
 	public boolean findS(Tile[][][] board, int z, int x, int y) {
 		if(x-1>0 && board[z][x-1][y].getLocation() == '$') {
+			data.add(board[z][x-1][y]);
 			return true;
 		}
 		if(x+1<board[0].length && board[z][x+1][y].getLocation() == '$') {
+			data.add(board[z][x+1][y]);
 			return true;
 		}
 		if(y-1>0 && board[z][x][y-1].getLocation() == '$') {
+			data.add(board[z][x][y-1]);
 			return true;
 		}
 		if(y+1<board[0][0].length && board[z][x][y+1].getLocation() == '$') {
+			data.add(board[z][x][y+1]);
 			return true;
 		}
 		return false;
