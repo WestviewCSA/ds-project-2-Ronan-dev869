@@ -14,7 +14,7 @@ public class Stack {
 		data.add(el);
 	}
 	
-	public void add(Tile[][][] board, int z, int x, int y) {
+	public void push(Tile[][][] board, int z, int x, int y) {
 		
 		if(x-1>0 && nullMove(board,z,x-1,y)) {
 			Tile north = board[z][x-1][y];

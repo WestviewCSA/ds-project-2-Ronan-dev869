@@ -31,10 +31,8 @@ public class Map {
 						for(int k = 0; k<cols; k++) {
 							this.map[i][j][k] = new Tile(j,k, line.charAt(k));
 							if(line.charAt(k) == 'W') {
-							//	System.out.println("yes"); 
-								//System.out.println(j + " " + k);
+							
 								Wolverine wol = new Wolverine(j,k,i);
-								//System.out.println(wol.getX() + " " + wol.getY());
 								player.add(wol);
 							}
 						}

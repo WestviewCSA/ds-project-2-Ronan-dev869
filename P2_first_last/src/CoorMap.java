@@ -1,15 +1,18 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CoorMap {
 	private Tile[][][] map;
+	private ArrayList<Wolverine> player;
 	private int x;
 	private int y; 
 	private int z;
 	
 	public CoorMap(String map) {
 		File file = new File(map);
+		player = new ArrayList<Wolverine>();
 		try {
 			Scanner scan = new Scanner(file);
 			// get dimensions
@@ -32,9 +35,11 @@ public class CoorMap {
 				Tile x =  new Tile(row, col, location);
 				this.map[level][row][col] = x;
 				if(location == 'W') {
-					this.x = row;
-					y = col;
-					z = level;
+					if(location == 'W') {
+						
+						Wolverine wol = new Wolverine(row,col,level);
+						player.add(wol);
+					}
 				}
 				scan.nextLine();
 			}
@@ -72,6 +77,12 @@ public class CoorMap {
 	}
 	public void setZ(int z) {
 		this.z = z;
+	}
+	public ArrayList<Wolverine> getPlayer() {
+		return player;
+	}
+	public Tile[][][] getMap(){
+		return map;
 	}
 	public String toString() {
 		String res = "";

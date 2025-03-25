@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
 public class runner{
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Map mazes = new Map("src/test1");
+		CoorMap mazes = new CoorMap("src/coordinateTest1");
 		ArrayList<Wolverine> wol = mazes.getPlayer();
-		System.out.println( wol.get(0).getX() + " " +  wol.get(0).getY());
-		wol.get(0).Stack(mazes.getMap(), 0, wol);
+		long start = System.nanoTime();
+		wol.get(0).stack(mazes.getMap(), 0, wol);
+		long end = System.nanoTime();
+		System.out.println(end-start);
 //		if(moves.peek().getLocation() == '|') {
 //			wol = mazes.getPlayer(wol.getZ()+1);
 //		}

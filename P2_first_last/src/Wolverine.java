@@ -29,11 +29,11 @@ public class Wolverine {
 	public void setZ(int z) {
 		this.z = z;
 	}
-	public void Stack(Tile[][][] board, int z, ArrayList<Wolverine> wol ){
+	public void stack(Tile[][][] board, int z, ArrayList<Wolverine> wol ){
 		Stack path = new Stack();
 		Stack moves = new Stack();
 		Wolverine wolverine = wol.get(z);
-		path.add(board, z, wolverine.getX(), wolverine.getY());
+		path.push(board, z, wolverine.getX(), wolverine.getY());
 		
 	
 		while(path.size() > 0) {
@@ -43,7 +43,7 @@ public class Wolverine {
 				break;
 			}		
 			moves.push(move);		
-			path.add(board, z, move.getRow(), move.getCol());			
+			path.push(board, z, move.getRow(), move.getCol());			
 		}
 		//moves.pop();
 		while(moves.size() > 1) {
@@ -58,10 +58,49 @@ public class Wolverine {
 		moves.pop().setLocation('+');
 		Tile end = path.pop();
 		if(end.getLocation() == '|') {
-			Stack(board,z+1,wol);
+			stack(board,z+1,wol);
 		}
 		while(path.size() > 0 ) {
 			path.pop().setLocation('.');
+		}
+		
+	}
+	public void queue(Tile[][][] board, int z, ArrayList<Wolverine> wol ){
+		Queue path = new Queue();
+		Queue moves = new Queue();
+		Wolverine wolverine = wol.get(z);
+		path.add(board, z, wolverine.getX(), wolverine.getY());
+		
+	
+		while(path.size() > 0) {
+			Tile move = path.dequeue();
+			if(path.findS(board,z,move.getRow(),move.getCol())) {
+				moves.enqueue(move);
+				break;
+			}		
+			moves.enqueue(move);		
+			path.add(board, z, move.getRow(), move.getCol());			
+		}
+		//moves.pop();
+		moves.reverse();
+		
+		while(moves.size() > 1) {
+			Tile move = moves.dequeue();
+			
+			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 || Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1) {
+				moves.dequeue().setLocation('.');;
+				
+			}
+			move.setLocation('+');
+		}
+		System.out.println(moves.toString());
+		moves.dequeue().setLocation('+');
+		Tile end = path.dequeue();
+		if(end.getLocation() == '|') {
+			queue(board,z+1,wol);
+		}
+		while(path.size() > 1 ) {
+			path.dequeue().setLocation('.');
 		}
 		
 	}

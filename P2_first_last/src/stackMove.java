@@ -16,7 +16,7 @@ public class stackMove {
 	public void getPath(Tile[][][] board, int z, int x, int y ){
 		Stack moves = new Stack();
 		
-		path.add(board, z, x, y);
+		path.push(board, z, x, y);
 		
 	
 		while(path.size() > 0) {
@@ -31,7 +31,7 @@ public class stackMove {
 		
 			moves.push(move);
 			
-			path.add(board, z, move.getRow(), move.getCol());
+			path.push(board, z, move.getRow(), move.getCol());
 			
 			
 			
