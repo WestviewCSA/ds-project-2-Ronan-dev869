@@ -13,7 +13,7 @@ public class stackMove {
 		
 	}
 	
-	public Stack getPath(Tile[][][] board, int z, int x, int y ){
+	public void getPath(Tile[][][] board, int z, int x, int y ){
 		Stack moves = new Stack();
 		
 		path.add(board, z, x, y);
@@ -25,34 +25,7 @@ public class stackMove {
 				moves.push(move);
 				break;
 			}
-//			if(path.size()>1) {
-//				
-//				
-//				
-//				//moves.add(board,z,move.getRow(),move.getCol());
-//				moves.push(move);
-//				System.out.println("Size: " + moves.size() + " " + size);
-//				System.out.println("Moves: " + move.getRow() + " " + move.getCol());
-//				Stack temp = moves;
-//
-//				while( moves.size()>size) {
-//					if(findS(board,z,moves.peek().getRow(),moves.peek().getCol())) {
-//						
-//						return moves;
-//					}
-//					
-//					move = moves.pop();
-//					
-//					System.out.println(moves.toString());
-//					moves.add(board, z, move.getRow(), move.getCol());
-//					
-//				}
-//				temp = new Stack();
-//				System.out.println(temp.toString());
-//				path.pop();
-//				continue;
-//				
-//			}
+
 			
 			
 		
@@ -65,35 +38,26 @@ public class stackMove {
 		
 			
 		}
-		System.out.println(moves);
-		Stack finalPath = new Stack();
-		finalPath.push(moves.pop());
+		
+		
 		while(moves.size() > 1) {
 			Tile move = moves.pop();
-			Tile nextMove = moves.peek();
-			if(nextMove == null) {
-				break;
-			}
-			while(Math.abs(move.getRow()-nextMove.getRow()) >0 || Math.abs(move.getCol()-nextMove.getCol()) > 0 ) {
+			
+			System.out.println((move.getRow()-moves.peek().getRow()) + " " + (move.getCol()-moves.peek().getCol()));
+			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1) {
+				System.out.println("Yes");
 				moves.pop();
 				
 			}
-			finalPath.push(move);
+			move.setLocation('+');
 		}
+		moves.peek().setLocation('+');
 		
 		
-		finalPath.push(moves.pop());
-		System.out.println(finalPath.toString());
-		System.out.println(path);
-//		if(temp.getLocation() == '|') {	
-//			
-//			getPath(board,z,x,y);
-//		}
-//		System.out.println(moves.size());
+	
+
 		
-//		
 		
-		return finalPath;
 	}
 	
 //	public Stack testBranch(Tile[][][] board, Tile start, int z) {

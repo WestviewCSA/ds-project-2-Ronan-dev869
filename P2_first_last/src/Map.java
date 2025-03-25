@@ -30,10 +30,12 @@ public class Map {
 					for(int j = 0; j<rows; j++) {
 						for(int k = 0; k<cols; k++) {
 							this.map[i][j][k] = new Tile(j,k, line.charAt(k));
-							if(line.charAt(k) == 'W' && i == 0) {
-								x = j;
-								y = k;
-								player.add(new Wolverine(rows, cols, i));
+							if(line.charAt(k) == 'W') {
+							//	System.out.println("yes"); 
+								//System.out.println(j + " " + k);
+								Wolverine wol = new Wolverine(j,k,i);
+								//System.out.println(wol.getX() + " " + wol.getY());
+								player.add(wol);
 							}
 						}
 						if(scan.hasNext()) {
@@ -79,8 +81,8 @@ public class Map {
 	}
 	
 	
-	public Wolverine getPlayer(int z) {
-		return player.get(z);
+	public ArrayList<Wolverine> getPlayer() {
+		return player;
 	}
 	
 	public void setTile(int x, int y, int z, char type) {
