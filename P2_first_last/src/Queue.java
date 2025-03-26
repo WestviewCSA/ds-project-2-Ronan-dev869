@@ -92,7 +92,7 @@ public void add(Tile[][][] board, int z, int x, int y) {
 	
 	public Queue reverse() {
 		Queue temp = new Queue();
-		for(int i = data.size(); i>0; i--) {
+		for(int i = data.size()-1; i>=0; i--) {
 			temp.enqueue(data.get(i));
 		}
 		return temp;

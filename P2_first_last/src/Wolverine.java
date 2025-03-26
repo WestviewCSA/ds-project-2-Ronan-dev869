@@ -49,7 +49,7 @@ public class Wolverine {
 		while(moves.size() > 1) {
 			Tile move = moves.pop();
 			
-			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1) {
+			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1|| Math.abs(move.getRow()-moves.peek().getRow())>1) {
 				moves.pop().setLocation('.');;
 				
 			}
@@ -82,19 +82,24 @@ public class Wolverine {
 			path.add(board, z, move.getRow(), move.getCol());			
 		}
 		//moves.pop();
-		moves.reverse();
-		
+		moves = moves.reverse();
+		System.out.println(moves.toString());
 		while(moves.size() > 1) {
 			Tile move = moves.dequeue();
-			
-			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 || Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1) {
-				moves.dequeue().setLocation('.');;
-				
+			//System.out.println(moves.peek().getRow() + " " + moves.peek().getCol());
+			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1 || Math.abs(move.getRow()-moves.peek().getRow())>1) {
+				moves.dequeue().setLocation('.');
 			}
 			move.setLocation('+');
 		}
-		System.out.println(moves.toString());
+		//System.out.println(moves.toString());
 		moves.dequeue().setLocation('+');
+		//System.out.println(path.toString());
+	
+		System.out.println(path.toString());
+		while(path.size() > 1 ) {
+			path.dequeue().setLocation('.');
+		}
 		Tile end = path.dequeue();
 		if(end.getLocation() == '|') {
 			queue(board,z+1,wol);
