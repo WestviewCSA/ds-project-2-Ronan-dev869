@@ -16,28 +16,37 @@ public class CoorMap {
 		try {
 			Scanner scan = new Scanner(file);
 			// get dimensions
-			int rows = scan.nextInt();
-			int cols = scan.nextInt();
-			int levels = scan.nextInt();
+			int[] dimensions = new int[3];
+			for(int i = 0; i<3;i++) {
+				if(scan.hasNextInt() == false) {
+					throw new FileNotFoundException();
+				}
+//				s
+				dimensions[i] = scan.nextInt();
+			}
 			
 			
+			this.map = new Tile[dimensions[2]][dimensions[0]][dimensions[1]];
 			
-			this.map = new Tile[levels][rows][cols];
-			System.out.println( rows + cols + levels);
 			//fill map
 			
 			
 			while(scan.hasNextLine()) {
 				char location = scan.next().charAt(0);
-				int row = scan.nextInt();
-				int col = scan.nextInt();
-				int level = scan.nextInt();
-				Tile x =  new Tile(row, col, location);
-				this.map[level][row][col] = x;
+				for(int i = 0; i<3;i++) {
+					if(scan.hasNextInt() == false) {
+						throw new FileNotFoundException();
+					}
+//					s
+					dimensions[i] = scan.nextInt();
+				}
+
+				Tile x =  new Tile(dimensions[0], dimensions[1], location);
+				this.map[dimensions[2]][dimensions[0]][dimensions[1]] = x;
 				if(location == 'W') {
 					if(location == 'W') {
 						
-						Wolverine wol = new Wolverine(row,col,level);
+						Wolverine wol = new Wolverine(dimensions[0],dimensions[1],dimensions[2]);
 						player.add(wol);
 					}
 				}
@@ -50,15 +59,45 @@ public class CoorMap {
 						if(this.map[i][j][k] == null) { 
 							this.map[i][j][k] = new Tile(j, k, '.');
 						}
+						if(checkChar(this.map[i][j][k].getLocation()) == false) {
+							throw new FileNotFoundException();
+						}
 					}
 				}
 			}
-			
-			scan.close();
+			if(checkMap()) {
+				throw new FileNotFoundException();
+			}
 		}
 		catch(FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("invalid");
 		}
+	}
+	public boolean checkMap() {
+		for(int i = 0; i<map.length; i++) {
+			for(int j = 0; j<map[i].length; j++) {
+				for(int k = 0; k<map[i][j].length; k++) {
+					if(map[i][j][k] == null) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public boolean checkChar(char loc) {
+		char[] valid = new char[5];;
+		valid[0] = '$';
+		valid[1] = 'W';
+		valid[2] = '.';
+		valid[3] = '@';
+		valid[4] = '|';
+		for(int i = 0; i<valid.length; i++) {
+			if(loc == valid[i]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public int getX() {
 		return x;

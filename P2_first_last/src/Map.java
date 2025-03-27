@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Map {
@@ -15,21 +16,31 @@ public class Map {
 		try {
 			Scanner scan = new Scanner(file);
 			// get dimensions
-			int rows = scan.nextInt();
-			int cols = scan.nextInt();
-			int levels = scan.nextInt();
+			int[] dimensions = new int[3];
+			for(int i = 0; i<3;i++) {
+				if(scan.hasNextInt() == false) {
+					throw new FileNotFoundException();
+				}
+//				s
+				dimensions[i] = scan.nextInt();
+			}
+			
+			System.out.println(dimensions.toString());
 			
 			
-			
-			this.map = new Tile[levels][rows][cols];
+			this.map = new Tile[dimensions[2]][dimensions[0]][dimensions[1]];
 			
 			//fill map
 			String line = scan.next();
 			
-				for(int i = 0; i<levels; i++) {
-					for(int j = 0; j<rows; j++) {
-						for(int k = 0; k<cols; k++) {
+				for(int i = 0; i<dimensions[2]; i++) {
+					for(int j = 0; j<dimensions[0]; j++) {
+						for(int k = 0; k<dimensions[1]; k++) {
+							if(checkChar(line.charAt(k)) == false) {
+								throw new FileNotFoundException();
+							}
 							this.map[i][j][k] = new Tile(j,k, line.charAt(k));
+							
 							if(line.charAt(k) == 'W') {
 							
 								Wolverine wol = new Wolverine(j,k,i);
@@ -41,13 +52,42 @@ public class Map {
 						}
 					}	
 				}
-			
+				if(checkMap()) {
+					throw new FileNotFoundException();
+				}
 			
 			scan.close();
 		}
 		catch(FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("invalid");
 		}
+		
+	}
+	public boolean checkMap() {
+		for(int i = 0; i<map.length; i++) {
+			for(int j = 0; j<map[i].length; j++) {
+				for(int k = 0; k<map[i][j].length; k++) {
+					if(map[i][j][k] == null) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public boolean checkChar(char loc) {
+		char[] valid = new char[5];;
+		valid[0] = '$';
+		valid[1] = 'W';
+		valid[2] = '.';
+		valid[3] = '@';
+		valid[4] = '|';
+		for(int i = 0; i<valid.length; i++) {
+			if(loc == valid[i]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public int getX() {
 		return x;
@@ -86,9 +126,9 @@ public class Map {
 	public void setTile(int x, int y, int z, char type) {
 		map[z][x][y] = new Tile(x,y,type);
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Map room1 = new Map("src/test1");
-		System.out.println(room1.toString());
-	}
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		Map room1 = new Map("src/test1");
+//		System.out.println(room1.toString());
+//	}
 }
