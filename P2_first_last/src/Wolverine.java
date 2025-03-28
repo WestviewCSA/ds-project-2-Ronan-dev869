@@ -37,136 +37,174 @@ public class Wolverine {
 		
 	
 		while(path.size() > 0) {
-			Tile move = path.pop();
+			Tile move = path.peek();
 			if(path.findS(board,z,move.getRow(),move.getCol())) {
+				//System.out.println("Yes");
+				path.push(move);
 				moves.push(move);
 				break;
-			}		
+			}
+			path.pop();
 			moves.push(move);		
 			path.push(board, z, move.getRow(), move.getCol());			
 		}
 		//moves.pop();
+		//System.out.println(moves.toString());
+//		System.out.println(path.toString());
+		char sym  = '+';
+		boolean found = false;
 		while(moves.size() > 1) {
 			Tile move = moves.pop();
-			
-			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1|| Math.abs(move.getRow()-moves.peek().getRow())>1) {
+			if(findW(board,z,move.getRow(),move.getCol())) {
+				System.out.println(move.getRow() + " " + move.getCol());
+				move.setLocation('+');
+				//sym='.';
+				break;
+			}
+			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0 || Math.abs(move.getCol()-moves.peek().getCol())>1|| Math.abs(move.getRow()-moves.peek().getRow())>1 ) {
+				if(found) {
+					moves.pop().setLocation('.');
+					break;
+				}
+				if(findW(board,z,moves.peek().getRow(),moves.peek().getCol())) {
+					
+					sym = '.';
+					found = true;
+					break;
+				}
 				moves.pop().setLocation('.');;
 				
 			}
-			move.setLocation('+');
+			move.setLocation(sym);
+//			if(found) {
+//				break;
+//			}
+			//move.setLocation('+');
 		}
-		moves.pop().setLocation('+');
+		while(moves.size()>1) {
+			moves.pop().setLocation('.');
+		}
+		System.out.println(path.toString());
+		//System.out.println(moves.peek().getLocation());
+		
+		
+			moves.pop().setLocation('.');
+		
+		//System.out.println(path.toString());
 		Tile end = path.pop();
+		//System.out.println(path.toString());
+		while(path.size() > 0 ) {
+			Tile temp = path.pop();
+			if(temp.getLocation() != '+') {
+				temp.setLocation('.');
+			}
+			
+		}
 		if(end.getLocation() == '|') {
 			stack(board,z+1,wol);
 		}
-		while(path.size() > 0 ) {
-			path.pop().setLocation('.');
-		}
+		
 		
 	}
-	public void queue(Tile[][][] board, int z, ArrayList<Wolverine> wol ){
-		Queue path = new Queue();
-		Queue moves = new Queue();
-		Wolverine wolverine = wol.get(z);
-		path.add(board, z, wolverine.getX(), wolverine.getY());
-		
+	public void queue(Tile[][][] board, int z, ArrayList<Wolverine> wol ){Queue path = new Queue();
+	Queue moves = new Queue();
+	Wolverine wolverine = wol.get(z);
+	path.enqueue(board, z, wolverine.getX(), wolverine.getY());
 	
-		while(path.size() > 0) {
-			Tile move = path.dequeue();
-			if(path.findS(board,z,move.getRow(),move.getCol())) {
-				moves.enqueue(move);
-				break;
-			}		
-			moves.enqueue(move);		
-			path.add(board, z, move.getRow(), move.getCol());			
-		}
-		//moves.pop();
-		moves = moves.reverse();
-		String res = "";
-		System.out.println(moves.toString());
-		while(moves.size() > 1) {
-			Tile move = moves.dequeue();
-			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1 || Math.abs(move.getRow()-moves.peek().getRow())>1) {
-				System.out.println(moves.peek().getRow() + " " + moves.peek().getCol());
-				if(findW(board, z, moves.peek().getRow(), moves.peek().getCol())) {
-					move.setLocation('+');
-					res+="+ " + move.getRow() + " " + move.getCol();
-					moves.dequeue().setLocation('.');
-					break;
-				}
-				moves.dequeue().setLocation('.');
-			}
-			move.setLocation('+');
-			res+= "+ " + move.getRow() + " " + move.getCol() + " " + z;
-			res+="\n";
-		}
-		//System.out.println(moves.toString());
-		if(moves.size()>0) {
-			moves.dequeue().setLocation('+');
-			//res+="+ " + move.getRow() + " " + move.getCol();
-		}
-		//System.out.println(path.toString());
-		System.out.println(res);
-		System.out.println(path.toString());
-		while(path.size() > 1 ) {
-			path.dequeue().setLocation('.');
-		}
-		Tile end = path.dequeue();
-		if(end.getLocation() == '|') {
-			queue(board,z+1,wol);
-		}
-		while(path.size() > 1 ) {
-			path.dequeue().setLocation('.');
-		}
-		//System.out.println(res);
+
+	while(path.size() > 0) {
+		Tile move = path.peek();
+		if(path.findS(board,z,move.getRow(),move.getCol())) {
+			System.out.println("Yes");
+			moves.enqueue(move);
+			break;
+		}	
+		path.dequeue();
+		moves.enqueue(move);		
+		path.enqueue(board, z, move.getRow(), move.getCol());	
+		
 	}
+	
+	//moves.pop();
+	moves = moves.reverse();
+	String res = "";
+	char sym  = '+';
+	boolean found = false;
+	moves.peek().setLocation('+');
+	System.out.println(moves.toString());
+	while(moves.size() > 1) {
+		Tile move = moves.dequeue();
+		//System.out.println(move.getRow() + " " + move.getCol());
+		if(findW(board,z,move.getRow(),move.getCol())) {
+			//System.out.println(move.getRow() + " " + move.getCol());
+			move.setLocation('+');
+			//sym='.';
+			break;
+		}
+		while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1 || Math.abs(move.getRow()-moves.peek().getRow())>1) {
+			//System.out.println(moves.peek().getRow() + " " + moves.peek().getCol());
+			if(found) {
+				moves.dequeue().setLocation('.');
+				break;
+			}
+			if(findW(board, z, moves.peek().getRow(), moves.peek().getCol())) {
+				System.out.println("Yes");
+				//moves.peek().setLocation('+');
+				sym = '.';
+				found = true;
+				res+="+ " + move.getRow() + " " + move.getCol();
+				//moves.dequeue().setLocation('.');
+				break;
+			}
+			moves.dequeue().setLocation('.');
+		}
+		System.out.println(moves.toString());
+		move.setLocation(sym);
+		res+= "+ " + move.getRow() + " " + move.getCol() + " " + z;
+		res+="\n";
+		//System.out.println(moves.toString());
+	} 
+	
+	while(moves.size()>1) {
+		
+		
+			moves.dequeue().setLocation(sym);
+		
+		//res+="+ " + move.getRow() + " " + move.getCol();
+	}
+	
+	//System.out.println(path.toString());
+	//System.out.println(res);
+	System.out.println(path.toString());
+//	while(path.size() > 1 ) {
+//		path.dequeue().setLocation('.');
+//	}
+	path = path.reverse();
+	Tile end = path.dequeue();
+	if(end.getLocation() == '|') {
+		queue(board,z+1,wol);
+	}
+	while(path.size() > 1 ) {
+		path.dequeue().setLocation('.');
+	}
+	//System.out.println(res);
+}
 	
 	public void optimize(Tile[][][] board, int z, ArrayList<Wolverine> wol) {
-		Stack path = new Stack();
-		Stack moves = new Stack();
-		Wolverine wolverine = wol.get(z);
-		path.push(board, z, wolverine.getX(), wolverine.getY());
-		int size = 0; 
-	
-		while(path.size() > 0) {
-			Tile move = path.peek();
-			if(path.size()>1) {
-				moves.push(move);
-				Stack temp = new Stack();
-				temp = moves;
-				System.out.println(moves.toString());
-				while(moves.size()>size) {
-					if(moves.findS(board, z, move.getRow(), move.getCol())) {
-						System.out.println(move.getRow() + " " + move.getCol());
-						
-						break;
-					}
-					move = moves.pop();
-					
-					moves.push(board, z, move.getRow(), move.getCol());
-					
-				}
-				System.out.println(moves.toString());
-				temp = new Stack();
-				path.pop();
-				//System.out.println(moves.peek().getLocation());
-				
-				//continue;
-			}
-//			if((moves.peek().getLocation() == '$' || moves.peek().getLocation() == '|') && moves.size() != 0) {
-//				break;
-//			}
-			path.pop();
-			moves.push(move);
-			//System.out.println(moves.toString());
-			size++;
-			path.push(board, z, move.getRow(), move.getCol());			
+		stack(board,z,wol);
+	}
+	public boolean findStart(Tile[][][] board, int z, int x, int y) {
+		boolean west = y-1>=0 && board[z][x][y-1].getLocation() == '+';
+		if(west && (x+1<board[0].length && board[z][x+1][y].getLocation() == '+')) {
+			return true;
 		}
-		System.out.println(moves.toString());
-		while(moves.size()>0) {
-			moves.pop().setLocation('+');
+		else if(west && (x-1>=0 && board[z][x-1][y].getLocation() == '+')) {
+			return true;
 		}
+		else if(west && (y+1<board[0][0].length && board[z][x][y-1].getLocation() == '+')) {
+			return true;
+		}
+		return false;
 	}
 	public boolean findW(Tile[][][] board, int z, int x, int y) {
 		if(x-1>0 && (board[z][x-1][y].getLocation() == 'W')) {

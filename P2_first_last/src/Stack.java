@@ -15,8 +15,10 @@ public class Stack {
 	}
 	
 	public void push(Tile[][][] board, int z, int x, int y) {
-		
-		if(x-1>0 && nullMove(board,z,x-1,y)) {
+		if(findS(board,z,x,y)) {
+			return;
+		}
+		if(x-1>=0 && nullMove(board,z,x-1,y)) {
 			Tile north = board[z][x-1][y];
 			north.setLocation('P');
 			data.add(north);
@@ -31,7 +33,7 @@ public class Stack {
 			east.setLocation('P');
 			data.add(east);
 		}
-		if(y-1>0 &&nullMove(board,z,x,y-1)) {
+		if(y-1>=0 &&nullMove(board,z,x,y-1)) {
 			Tile west = board[z][x][y-1];
 			west.setLocation('P');
 			data.add(west);
@@ -55,20 +57,20 @@ public class Stack {
 	}
 	
 	public boolean findS(Tile[][][] board, int z, int x, int y) {
-		if(x-1>0 && (board[z][x-1][y].getLocation() == '$' ||board[z][x-1][y].getLocation() == '|')) {
-			data.add(board[z][x-1][y]);
+		if(x-1>=0 && (board[z][x-1][y].getLocation() == '$' ||board[z][x-1][y].getLocation() == '|')) {
+			//data.add(board[z][x-1][y]);
 			return true;
 		}
 		if(x+1<board[0].length && (board[z][x+1][y].getLocation() == '$'||board[z][x+1][y].getLocation() == '|')) {
-			data.add(board[z][x+1][y]);
+			//data.add(board[z][x+1][y]);
 			return true;
 		}
-		if(y-1>0 && (board[z][x][y-1].getLocation() == '$'|| board[z][x][y-1].getLocation() == '|')) {
-			data.add(board[z][x][y-1]);
+		if(y-1>=0 && (board[z][x][y-1].getLocation() == '$'|| board[z][x][y-1].getLocation() == '|')) {
+			//data.add(board[z][x][y-1]);
 			return true;
 		}
 		if(y+1<board[0][0].length && (board[z][x][y+1].getLocation() == '$'||board[z][x][y+1].getLocation() == '|')) {
-			data.add(board[z][x][y+1]);
+			//data.add(board[z][x][y+1]);
 			return true;
 		}
 		return false;

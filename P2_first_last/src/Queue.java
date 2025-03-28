@@ -26,9 +26,11 @@ public class Queue{
 		 
 		return t;
 	}
-public void add(Tile[][][] board, int z, int x, int y) {
-		
-		if(x-1>0 && nullMove(board,z,x-1,y)) {
+public void enqueue(Tile[][][] board, int z, int x, int y) {
+	if(findS(board,z,x,y)) {
+		return;
+	}
+		if(x-1>=0 && nullMove(board,z,x-1,y)) {
 			Tile north = board[z][x-1][y];
 			north.setLocation('P');
 			data.add(north);
@@ -43,7 +45,7 @@ public void add(Tile[][][] board, int z, int x, int y) {
 			east.setLocation('P');
 			data.add(east);
 		}
-		if(y-1>0 &&nullMove(board,z,x,y-1)) {
+		if(y-1>=0 &&nullMove(board,z,x,y-1)) {
 			Tile west = board[z][x][y-1];
 			west.setLocation('P');
 			data.add(west);
@@ -67,7 +69,7 @@ public void add(Tile[][][] board, int z, int x, int y) {
 	}
 	
 	public boolean findS(Tile[][][] board, int z, int x, int y) {
-		if(x-1>0 && (board[z][x-1][y].getLocation() == '$' ||board[z][x-1][y].getLocation() == '|')) {
+		if(x-1>=0 && (board[z][x-1][y].getLocation() == '$' ||board[z][x-1][y].getLocation() == '|')) {
 			data.add(board[z][x-1][y]);
 			return true;
 		}
@@ -75,7 +77,7 @@ public void add(Tile[][][] board, int z, int x, int y) {
 			data.add(board[z][x+1][y]);
 			return true;
 		}
-		if(y-1>0 && (board[z][x][y-1].getLocation() == '$'|| board[z][x][y-1].getLocation() == '|')) {
+		if(y-1>=0 && (board[z][x][y-1].getLocation() == '$'|| board[z][x][y-1].getLocation() == '|')) {
 			data.add(board[z][x][y-1]);
 			return true;
 		}
