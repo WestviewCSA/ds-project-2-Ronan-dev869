@@ -9,7 +9,7 @@ public class runner{
 		//System.out.println(mazes1.toString());
 		ArrayList<Wolverine> wol = mazes1.getPlayer();
 		long start = System.nanoTime();
-		wol.get(0).queue(mazes1.getMap(), 0, wol);
+		wol.get(0).stack(mazes1.getMap(), 0, wol);
 		long end = System.nanoTime();
 		System.out.println(end-start);
 //		if(moves.peek().getLocation() == '|') {

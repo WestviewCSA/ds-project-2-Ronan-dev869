@@ -58,7 +58,7 @@ public class Wolverine {
 			if(findW(board,z,move.getRow(),move.getCol())) {
 				System.out.println(move.getRow() + " " + move.getCol());
 				move.setLocation('+');
-				//sym='.';
+				sym='.';
 				break;
 			}
 			while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0 || Math.abs(move.getCol()-moves.peek().getCol())>1|| Math.abs(move.getRow()-moves.peek().getRow())>1 ) {
@@ -81,14 +81,15 @@ public class Wolverine {
 //			}
 			//move.setLocation('+');
 		}
-		while(moves.size()>1) {
-			moves.pop().setLocation('.');
+		
+		while(moves.size()>0) {
+			moves.pop().setLocation(sym);
 		}
 		System.out.println(path.toString());
 		//System.out.println(moves.peek().getLocation());
 		
 		
-			moves.pop().setLocation('.');
+			//moves.pop().setLocation('.');
 		
 		//System.out.println(path.toString());
 		Tile end = path.pop();
@@ -138,7 +139,7 @@ public class Wolverine {
 		if(findW(board,z,move.getRow(),move.getCol())) {
 			//System.out.println(move.getRow() + " " + move.getCol());
 			move.setLocation('+');
-			//sym='.';
+			sym='.';
 			break;
 		}
 		while(Math.abs(move.getRow()-moves.peek().getRow()) >0 && Math.abs(move.getCol()-moves.peek().getCol()) > 0  || Math.abs(move.getCol()-moves.peek().getCol())>1 || Math.abs(move.getRow()-moves.peek().getRow())>1) {
@@ -147,9 +148,11 @@ public class Wolverine {
 				moves.dequeue().setLocation('.');
 				break;
 			}
-			if(findW(board, z, moves.peek().getRow(), moves.peek().getCol())) {
+			if(findW(board, z, move.getRow(), move.getCol())) {
 				System.out.println("Yes");
-				//moves.peek().setLocation('+');
+				System.out.println(move.getRow() + " " + move.getCol());
+//				move.setLocation('+');
+//				moves.dequeue();
 				sym = '.';
 				found = true;
 				res+="+ " + move.getRow() + " " + move.getCol();
@@ -164,15 +167,15 @@ public class Wolverine {
 		res+="\n";
 		//System.out.println(moves.toString());
 	} 
-	
-	while(moves.size()>1) {
+	System.out.println(moves.toString());
+	while(moves.size()>0) {
 		
 		
 			moves.dequeue().setLocation(sym);
 		
 		//res+="+ " + move.getRow() + " " + move.getCol();
 	}
-	
+	//moves.dequeue().setLocation('+');
 	//System.out.println(path.toString());
 	//System.out.println(res);
 	System.out.println(path.toString());
