@@ -58,19 +58,19 @@ public class Stack {
 	
 	public boolean findS(Tile[][][] board, int z, int x, int y) {
 		if(x-1>=0 && (board[z][x-1][y].getLocation() == '$' ||board[z][x-1][y].getLocation() == '|')) {
-			//data.add(board[z][x-1][y]);
+			data.add(board[z][x-1][y]);
 			return true;
 		}
 		if(x+1<board[0].length && (board[z][x+1][y].getLocation() == '$'||board[z][x+1][y].getLocation() == '|')) {
-			//data.add(board[z][x+1][y]);
+			data.add(board[z][x+1][y]);
 			return true;
 		}
 		if(y-1>=0 && (board[z][x][y-1].getLocation() == '$'|| board[z][x][y-1].getLocation() == '|')) {
-			//data.add(board[z][x][y-1]);
+			data.add(board[z][x][y-1]);
 			return true;
 		}
 		if(y+1<board[0][0].length && (board[z][x][y+1].getLocation() == '$'||board[z][x][y+1].getLocation() == '|')) {
-			//data.add(board[z][x][y+1]);
+			data.add(board[z][x][y+1]);
 			return true;
 		}
 		return false;

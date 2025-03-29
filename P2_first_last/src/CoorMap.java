@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CoorMap {
+public class CoorMap extends Map{
 	private Tile[][][] map;
 	private ArrayList<Wolverine> player;
 	private int x;
@@ -24,32 +24,39 @@ public class CoorMap {
 //				s
 				dimensions[i] = scan.nextInt();
 			}
-			
+			if(dimensions[0] < 0 || dimensions[1] < 0) {
+				throw new IncorrectMapFormatException();
+			}
 			
 			this.map = new Tile[dimensions[2]][dimensions[0]][dimensions[1]];
 			
 			//fill map
 			
 			
-			while(scan.hasNextLine()) {
+			while(scan.hasNextLine()) { // go line by line
 				char location = scan.next().charAt(0);
+				int[] coordinates = new int[3];
 				for(int i = 0; i<3;i++) {
 					if(scan.hasNextInt() == false) {
-						throw new FileNotFoundException();
+						throw new IncompleteMapException(); // make sure theres a row col
 					}
 //					s
-					dimensions[i] = scan.nextInt();
+					coordinates[i] = scan.nextInt(); // reuse dimensions to find placement for char
+					if(coordinates[i]>dimensions[i] || coordinates[i]<dimensions[i]) { // coordinates are out of bounds
+						throw new IncompleteMapException();
+					}
 				}
-
-				Tile x =  new Tile(dimensions[0], dimensions[1], location);
-				this.map[dimensions[2]][dimensions[0]][dimensions[1]] = x;
+				
+				Tile x =  new Tile(coordinates[0], coordinates[1], location);
+				this.map[coordinates[2]][coordinates[0]][coordinates[1]] = x;
 				if(location == 'W') {
 					if(location == 'W') {
 						
-						Wolverine wol = new Wolverine(dimensions[0],dimensions[1],dimensions[2]);
+						Wolverine wol = new Wolverine(coordinates[0],coordinates[1],coordinates[2]);
 						player.add(wol);
 					}
 				}
+				
 				scan.nextLine();
 			}
 			
@@ -57,34 +64,34 @@ public class CoorMap {
 				for(int j = 0; j<this.map[i].length; j++) {
 					for(int k = 0; k<this.map[i][j].length; k++) {
 						if(this.map[i][j][k] == null) { 
-							this.map[i][j][k] = new Tile(j, k, '.');
+							this.map[i][j][k] = new Tile(j, k, '.'); // fill null spaces with walkable tiles
 						}
 						if(checkChar(this.map[i][j][k].getLocation()) == false) {
-							throw new FileNotFoundException();
+							throw new IllegalMapCharacterException();
 						}
 					}
 				}
 			}
-			if(checkMap()) {
-				throw new FileNotFoundException();
-			}
+			
 		}
 		catch(FileNotFoundException e) {
 			System.out.println("invalid");
+			System.exit(-1);
+		}
+		catch(IllegalMapCharacterException e) {
+			System.out.println("invalid");
+			System.exit(-1);
+		}
+		catch(IncompleteMapException e ) {
+			System.out.println("invalid");
+			System.exit(-1);
+		}
+		catch(IncorrectMapFormatException e) {
+			System.out.println("invalid");
+			System.exit(-1);
 		}
 	}
-	public boolean checkMap() {
-		for(int i = 0; i<map.length; i++) {
-			for(int j = 0; j<map[i].length; j++) {
-				for(int k = 0; k<map[i][j].length; k++) {
-					if(map[i][j][k] == null) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+	
 	public boolean checkChar(char loc) {
 		char[] valid = new char[5];;
 		valid[0] = '$';

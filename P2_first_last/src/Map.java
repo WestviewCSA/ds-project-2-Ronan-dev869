@@ -10,6 +10,9 @@ public class Map {
 	private int x;
 	private int y;
 	private int z;
+	public Map() {
+		//map = new Tile[0][0][0];
+	}
 	public Map(String map) {
 		File file = new File(map);
 		player = new ArrayList<Wolverine>();
@@ -19,13 +22,15 @@ public class Map {
 			int[] dimensions = new int[3];
 			for(int i = 0; i<3;i++) {
 				if(scan.hasNextInt() == false) {
-					throw new FileNotFoundException();
+					throw new IncorrectMapFormatException(); // not enough int for dimensions
 				}
-//				s
+
 				dimensions[i] = scan.nextInt();
 			}
 			
-			System.out.println(dimensions.toString());
+			if(dimensions[0] <0 || dimensions[1]<0) { // negative row col
+				throw new IncorrectMapFormatException();
+			}
 			
 			
 			this.map = new Tile[dimensions[2]][dimensions[0]][dimensions[1]];
@@ -37,31 +42,45 @@ public class Map {
 					for(int j = 0; j<dimensions[0]; j++) {
 						for(int k = 0; k<dimensions[1]; k++) {
 							if(checkChar(line.charAt(k)) == false) {
-								throw new FileNotFoundException();
+								throw new IllegalMapCharacterException();
 							}
 							this.map[i][j][k] = new Tile(j,k, line.charAt(k));
 							
 							if(line.charAt(k) == 'W') {
-							//	System.out.println(j + " " + k);
-								Wolverine wol = new Wolverine(j,k,i);
+							
+								Wolverine wol = new Wolverine(j,k,i); // add wolverines to a players arrayList
 								player.add(wol);
 							}
 						}
 						if(scan.hasNext()) {
 							line = scan.next();
-						//	System.out.println(line);
+						
 						}
+
 					}	
 				}
 				
 				if(checkMap()) {
-					throw new FileNotFoundException();
+					throw new IncompleteMapException();
 				}
 			
 			scan.close();
 		}
 		catch(FileNotFoundException e) {
-			System.out.println("invalid");
+			System.out.println("invalid" + " FileNotFoundException");
+			System.exit(-1);
+		}
+		catch(IllegalMapCharacterException e) {
+			System.out.println("invalid" + " IllegalMapCharacterException");
+			System.exit(-1);
+		}
+		catch(IncompleteMapException e) {
+			System.out.println("invalid" + " IncompleteMapException");
+			System.exit(-1);
+		}
+		catch(IncorrectMapFormatException e) {
+			System.out.println("invalid" + " IncorrectMapFormatException");
+			System.exit(-1);
 		}
 		
 	}
@@ -77,7 +96,7 @@ public class Map {
 		}
 		return false;
 	}
-	public boolean checkChar(char loc) {
+	public boolean checkChar(char loc) { // legal character checker
 		char[] valid = new char[5];;
 		valid[0] = '$';
 		valid[1] = 'W';
