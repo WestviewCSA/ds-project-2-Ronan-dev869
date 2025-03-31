@@ -105,9 +105,9 @@ public class p2{
 			if(outCoor) {
 				wol.get(0).getRes(0,0,maze.getMap().length);
 			}
-			
+			if(!outCoor) {
 				System.out.println(maze.toString());
-			
+			}
 			
 		}
 		catch(IllegalCommandLineInputsException e) {

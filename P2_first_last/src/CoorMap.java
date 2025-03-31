@@ -42,7 +42,7 @@ public class CoorMap extends Map{
 					}
 //					s
 					coordinates[i] = scan.nextInt(); // reuse dimensions to find placement for char
-					if(coordinates[i]>dimensions[i] || coordinates[i]<dimensions[i]) { // coordinates are out of bounds
+					if(coordinates[i]>dimensions[i] || coordinates[i]<0) { // coordinates are out of bounds
 						throw new IncompleteMapException();
 					}
 				}
